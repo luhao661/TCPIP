@@ -1,0 +1,4 @@
+﻿D:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(Project1.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  hello_client_win.c
+D:\CODE\TCP&IP\Chapter01\code1\hello_client_win\Project1\Project1\hello_client_win.c(29,29): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  Project1.vcxproj -> D:\CODE\TCP&IP\Chapter01\code1\hello_client_win\Project1\x64\Debug\Project2.exe
