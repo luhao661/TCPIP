@@ -115,8 +115,8 @@ int main(int argc, char** argv)
     //测试：
     //以2个操作数的输入为例，前者输出8，后者输出9，
     //考虑到元素opinfo[0]先前已被读取，所以前者正确
-    // printf("op_count*DATA_SIZE+1=%d \n",op_count*DATA_SIZE+1);
     // printf("recv-1=%d \n",recv-1);
+    // printf("op_count*DATA_SIZE+1=%d \n",op_count*DATA_SIZE+1);
 
     //虽然result是int类型，但write()是以字节为单位传输的，
     //所以要强制类型转换为char元素的地址，然后长度是4个字节
