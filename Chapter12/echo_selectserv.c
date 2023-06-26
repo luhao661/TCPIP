@@ -33,15 +33,15 @@ int main(int argc, char *argv[])
 	fd_set reads, cpy_reads;
 	FD_ZERO(&reads);
 	//向reads结构体中注册文件描述符serv_sock的信息
-	//即注册服务器端套接字
+	//即注册服务器端套接字文件描述符
 	FD_SET(serv_sock, &reads);
 	//文件和套接字创建时才会被分配文件描述符。
 	//它们的文件描述符会从 3 开始按序递增，因此fd_max为3
-	fd_max=serv_sock;
+	int fd_max=serv_sock;
 
 	struct timeval timeout;
 	socklen_t adr_sz;
-	int fd_max, str_len, fd_num, i;
+	int str_len, fd_num, i;
 	char buf[BUF_SIZE];
 	while(1)
 	{
@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
 		//监视文件描述符数量为fd_max+1，
 		//将所有关注"是否存在待读取数据"的文件描述符已注册到fd_set型变量，
 		//要传递其地址值
+		//即观测服务器端套接字文件描述符和标准输入文件描述符是否有变化。
 		//不关注"是否可传输无阻塞数据"的文件描述符
 		//不关注"是否发生异常"的文件描述符
 		if((fd_num=select(fd_max+1, &cpy_reads, 0, 0, &timeout))==-1)
@@ -78,7 +79,8 @@ int main(int argc, char *argv[])
 					accept(serv_sock, (struct sockaddr*)&clnt_adr,
 					 &adr_sz);
 
-					//使用宏来向结构体中注册文件描述符clnt_sock的信息
+					//使用宏来向结构体中注册
+					//客户端套接字文件描述符clnt_sock的信息
 					FD_SET(clnt_sock, &reads);
 
 					if(fd_max<clnt_sock)
@@ -91,11 +93,11 @@ int main(int argc, char *argv[])
 					//发生变化的套接字并非服务器端套接字时，
 					//即有要接受的数据时执行else语句,
 					//但此时需要确认接收的数据是字符串还是代表
-					//断开连接的 EOF。
+					//断开连接的 EOF 。
 					str_len = read(i, buf, BUF_SIZE);
 					if (str_len == 0) // close request!
 					{
-						//接收的数据为 EOF时需要关闭套接字，
+						//接收的数据为 EOF 时需要关闭套接字，
 						//并从 reads 中删除相应信息
 						FD_CLR(i, &reads);
 						close(i);
@@ -112,6 +114,7 @@ int main(int argc, char *argv[])
 	}
 
 	close(serv_sock);
+
 	return 0;
 }
 
